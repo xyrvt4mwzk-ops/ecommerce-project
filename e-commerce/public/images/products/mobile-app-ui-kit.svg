@@ -1,0 +1,15 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#g2)"/>
+  <rect x="200" y="120" width="250" height="600" rx="40" fill="#ffffff" fill-opacity="0.14"/>
+  <rect x="500" y="160" width="520" height="120" rx="24" fill="#ffffff" fill-opacity="0.16"/>
+  <rect x="500" y="320" width="240" height="170" rx="28" fill="#bfdbfe" fill-opacity="0.75"/>
+  <rect x="780" y="320" width="240" height="170" rx="28" fill="#ffffff" fill-opacity="0.12"/>
+  <rect x="500" y="530" width="520" height="160" rx="28" fill="#ffffff" fill-opacity="0.12"/>
+  <text x="150" y="790" fill="#ffffff" font-size="58" font-family="Arial, sans-serif" font-weight="700">Mobile App UI Kit</text>
+</svg>

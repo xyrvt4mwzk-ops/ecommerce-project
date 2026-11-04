@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\roles;
 use App\Models\Permission;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
 
 class RoleAndPermissionSeeder extends Seeder
 {
@@ -15,7 +13,6 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run(): void
     {
-       {
         // 1. Define your 5 Core Roles
         $roles = [
             [
@@ -49,6 +46,39 @@ class RoleAndPermissionSeeder extends Seeder
         foreach ($roles as $roleData) {
             Role::firstOrCreate(['name' => $roleData['name']], $roleData);
         }
+
+        $rolePermissions = [
+            'buyer' => [
+                'buyer.dashboard', 'buyer.library.view', 'buyer.orders.view',
+                'buyer.wishlist.manage', 'buyer.cart.manage', 'buyer.checkout.create',
+                'buyer.reviews.manage', 'profile.manage',
+            ],
+            'creator' => [
+                'creator.dashboard', 'creator.products.manage', 'creator.reviews.respond',
+                'creator.moderation.respond', 'profile.manage',
+            ],
+            'affiliate' => [
+                'affiliate.dashboard', 'affiliate.payouts.manage', 'profile.manage',
+            ],
+            'content-reviewer' => [
+                'reviewer.dashboard', 'reviewer.moderation.manage', 'profile.manage',
+            ],
+            'super-admin' => [
+                'admin.dashboard', 'admin.products.manage', 'admin.orders.view',
+                'admin.access.manage', 'admin.coupons.manage', 'admin.affiliates.manage',
+                'reviewer.moderation.manage', 'profile.manage',
+            ],
+        ];
+
+        foreach ($rolePermissions as $roleName => $permissionNames) {
+            $permissionIds = collect($permissionNames)->map(function (string $name): int {
+                return Permission::firstOrCreate(
+                    ['name' => $name],
+                    ['display_name' => str($name)->replace('.', ' ')->title()],
+                )->id;
+            });
+
+            Role::where('name', $roleName)->firstOrFail()->permissions()->syncWithoutDetaching($permissionIds);
+        }
     }
-}
 }

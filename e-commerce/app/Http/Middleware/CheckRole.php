@@ -26,6 +26,12 @@ class CheckRole
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
+        // Super administrators are the platform override role. Fine-grained
+        // permissions and policies still protect the action being performed.
+        if ($user->hasRole('super-admin')) {
+            return $next($request);
+        }
+
         // 2. Check if the logged-in user has the required role
         if (!$user->roles()->where('name', $role)->exists()) {
             abort(403, 'You do not have the required role to access this resource.');

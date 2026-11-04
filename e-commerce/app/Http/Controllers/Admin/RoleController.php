@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    //display list all roles
+    // display list all roles
     public function index()
     {
-        $roles = Role::with('Permissions')->get();
+        $roles = Role::with('permissions')->orderBy('display_name')->get();
+
         return view('admin.roles.index', compact('roles'));
     }
 
-    //store new created role
+    // store new created role
     public function store(Request $request)
     {
         $vallidated = $request->validate([
@@ -25,6 +26,7 @@ class RoleController extends Controller
         ]);
 
         Role::create($vallidated);
+
         return redirect()->back()->with('success', 'Role created successfully.');
     }
 }
